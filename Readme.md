@@ -3,3 +3,4 @@
 ### 项目插件说明
 [Odin](https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041)：编辑器扩展
 
+[EasySave3](https://assetstore.unity.com/packages/tools/utilities/easy-save-the-complete-save-game-data-serializer-system-768)：持久化
