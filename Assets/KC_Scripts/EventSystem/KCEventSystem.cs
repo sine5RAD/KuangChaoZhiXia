@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -6,7 +6,7 @@ namespace KCGame
 {
  
     /// <summary>
-    /// ÊÂ¼ş²ÎÊı 
+    /// äº‹ä»¶å‚æ•° 
     /// </summary>
     public struct KCGameEvent
     {
@@ -32,11 +32,11 @@ namespace KCGame
     }
 
     /// <summary>
-    /// 1 - ÉùÃ÷ÄãµÄÀàÎª¸ÃÀàĞÍµÄÊÂ¼şÊµÏÖÁË KCEventListener ½Ó¿Ú¡£
-    /// ÀıÈç£ºpublic class GUIManager : Singleton<GUIManager>, KCEventListener<KCGameEvent>
-    /// Äã¿ÉÒÔÓĞ¶à¸öÕâÑùµÄÉùÃ÷£¨Ã¿ÖÖÊÂ¼şÀàĞÍÒ»¸ö£©¡£
+    /// 1 - å£°æ˜ä½ çš„ç±»ä¸ºè¯¥ç±»å‹çš„äº‹ä»¶å®ç°äº† KCEventListener æ¥å£ã€‚
+    /// ä¾‹å¦‚ï¼špublic class GUIManager : Singleton<GUIManager>, KCEventListener<KCGameEvent>
+    /// ä½ å¯ä»¥æœ‰å¤šä¸ªè¿™æ ·çš„å£°æ˜ï¼ˆæ¯ç§äº‹ä»¶ç±»å‹ä¸€ä¸ªï¼‰ã€‚
     ///
-    /// 2 - ÔÚÆôÓÃºÍ½ûÓÃÊ±£¬·Ö±ğ¿ªÊ¼ºÍÍ£Ö¹¼àÌı¸ÃÊÂ¼ş£º
+    /// 2 - åœ¨å¯ç”¨å’Œç¦ç”¨æ—¶ï¼Œåˆ†åˆ«å¼€å§‹å’Œåœæ­¢ç›‘å¬è¯¥äº‹ä»¶ï¼š
     ///void OnEnable ()
     /// {
     /// this.KCEventStartListening<KCGameEvent>();
@@ -46,15 +46,15 @@ namespace KCGame
     /// this.KCEventStopListening<KCGameEvent>();
     /// }
     ///
-    /// 3 - Îª¸ÃÊÂ¼şÊµÏÖ KCEventListener ½Ó¿Ú¡£ÀıÈç£º
+    /// 3 - ä¸ºè¯¥äº‹ä»¶å®ç° KCEventListener æ¥å£ã€‚ä¾‹å¦‚ï¼š
     ///public void OnEvent (MMGameEvent gameEvent)
     /// {
     /// if (gameEvent.EventName == "GameOver")
     /// {
-    /// // Ö´ĞĞÄ³Ğ©²Ù×÷
+    /// // æ‰§è¡ŒæŸäº›æ“ä½œ
     /// }
     /// }
-    /// Õâ½«²¶»ñÓÎÏ·ÖĞÈÎºÎµØ·½·¢³öµÄËùÓĞ KCGameEvent ÀàĞÍµÄÊÂ¼ş£¬Èç¹ûÊÂ¼şÃûÎª GameOver ÔòÖ´ĞĞÄ³Ğ©²Ù×÷¡£
+    /// è¿™å°†æ•è·æ¸¸æˆä¸­ä»»ä½•åœ°æ–¹å‘å‡ºçš„æ‰€æœ‰ KCGameEvent ç±»å‹çš„äº‹ä»¶ï¼Œå¦‚æœäº‹ä»¶åä¸º GameOver åˆ™æ‰§è¡ŒæŸäº›æ“ä½œã€‚
     /// </summary>
     [ExecuteAlways]
     public static class KCEventManager
@@ -184,7 +184,7 @@ namespace KCGame
 
     /// <summary>
     /// Static class that allows any class to start or stop listening to events
-    /// ¾²Ì¬À©Õ¹ÀàÔËĞĞÈÎºÎÀàÈ¥¼àÌıÒ»¸öÊÂ¼ş
+    /// é™æ€æ‰©å±•ç±»è¿è¡Œä»»ä½•ç±»å»ç›‘å¬ä¸€ä¸ªäº‹ä»¶
     /// </summary>
     public static class EventRegister
     {
