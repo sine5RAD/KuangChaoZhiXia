@@ -31,10 +31,7 @@ namespace KCGame
         protected KCSingleton() {}
 
         protected virtual void OnCreated() { Debug.Log($"Instance of type {typeof(T).Name} created."); }
-        public virtual void WakeUp()
-        {
-
-        }
+      
        
     }
 }

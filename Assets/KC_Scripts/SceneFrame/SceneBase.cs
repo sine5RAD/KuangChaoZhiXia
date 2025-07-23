@@ -17,6 +17,12 @@ namespace KCGame
         {
             SceneManager.sceneLoaded -= EnterScene;
         }
+        public virtual void EnterScene()
+        {
+            SceneManager.sceneLoaded -= EnterScene;
+        }
+
+
         /// <summary>
         /// 退出该场景时触发
         /// </summary>

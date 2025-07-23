@@ -1,3 +1,4 @@
+using KCGame;
 using Sirenix.OdinInspector.Editor.Validation;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,17 +13,23 @@ using UnityEngine.Tilemaps;
 public class MapObjectManager : MonoBehaviour
 {
     private Dictionary<string, GameObject> _objectsDict = new Dictionary<string, GameObject>();
+    
     public Grid mapGrid;
+    
     public Tilemap tilemap;
+    
     public GameObject buildingObject;
+
     public GameObject player;
     /// <summary>
     /// 地图缩放，默认为4倍
     /// </summary>
     public float scale = 4f;
-    private static readonly string _resPath = "Prefab/Objects/Map";
+    private static string _resPath;
     void Start()
     {
+        _resPath = KCConstant.MapObjectManager_resPath;
+
         var bound = tilemap.cellBounds;
         bool hasSpawnedPlayer = false;//一个地图只能有一个玩家出生点
         foreach(var pos in bound.allPositionsWithin)
