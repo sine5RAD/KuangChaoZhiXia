@@ -69,7 +69,7 @@ namespace KCGame
             else
             {
                 // 加载过渡场景
-                SceneManager.LoadScene("LoadTransitionScene");
+                SceneManager.LoadScene(KCConstant.过度场景名称);
 
             }
         }
