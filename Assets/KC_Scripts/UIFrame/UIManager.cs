@@ -42,7 +42,7 @@ namespace KCGame
         /// </summary>
         /// <param name="uiType">画布类型</param>
         /// <returns></returns>
-        public GameObject GetSingleObject(UIType uiType)
+        private GameObject GetSingleObject(UIType uiType)
         {
             if (dictUIObject.ContainsKey(uiType.Name))
                 return dictUIObject[uiType.Name];
@@ -66,6 +66,18 @@ namespace KCGame
         /// <param name="ui">新UI</param>
         public void Push(BasePanel ui)
         {
+            if (dictUIObject.ContainsKey(ui.uiType.Name)) return;
+            /* 
+             * 由于向字典中添加ui.uiType.Name键一定是在执行完GetSingleObject之后，而GetSingleObject函数只会在给ui.activeObj赋值时调用
+             * （ui.activeObj只在这里被赋值，因此如果不加这一行可能会出bug，具体表现形式是同一帧中生成了两个相同的BasePanel对象，这两
+             * 个BasePanel对象的activeObj指向同一个UI的go，当ui关闭时这个ui会被关闭两次，从而出现问题）
+             */
+            if(stackUI.Count > 0)
+            {
+                Debug.Log(stackUI.Peek().uiType.Name);
+                Debug.Log(ui.uiType.Name);
+                if (stackUI.Peek().uiType.Name != ui.uiType.Name) return;//防止双击什么的导致同一个UI弹出多次。如果栈顶的UI和加载的ui相同就忽略这次推入
+            }
             if (stackUI.Count > 0)
             {
                 stackUI.Peek().OnDisable();
@@ -75,19 +87,8 @@ namespace KCGame
             //这里不需要Add，因为GetSingleObject保证加载的UI进入字典
             ui.activeObj = basePanelObject;
 
-            if (stackUI.Count == 0)
-            {
-                stackUI.Push(ui);
-            }
-            else
-            {
-                if (stackUI.Peek().uiType.Name != ui.uiType.Name)
-                {
-                    stackUI.Push(ui);
-                }
-            }
-            ui.OnStart();//推入栈顶后执行OnStart
-                         //防止双击什么的导致同一个UI弹出多次。如果栈顶的UI和加载的ui相同就忽略这次推入
+            stackUI.Push(ui);
+            ui.OnStart();
             ui.OnEnable();
 
         }
@@ -111,6 +112,12 @@ namespace KCGame
         /// </summary>
         public void Pop()
         {
+            if(stackUI.Count == 0)
+            {
+                Debug.LogWarning("栈内没有ui，可能出了点问题？");
+                return;
+            }
+            if (!dictUIObject.ContainsKey(stackUI.Peek().uiType.Name)) return;
             stackUI.Peek().OnDisable();
             stackUI.Peek().OnDestroy();
             GameObject.Destroy(dictUIObject[stackUI.Peek().uiType.Name]);

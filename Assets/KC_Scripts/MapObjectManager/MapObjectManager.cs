@@ -34,7 +34,6 @@ public class MapObjectManager : MonoBehaviour
                 GameObject newGO;
                 if (!_objectsDict.ContainsKey(sprite.name))
                 {
-                    Debug.Log($"{_resPath}/{sprite.name}");
                     _objectsDict.Add(sprite.name, GameObject.Instantiate(Resources.Load<GameObject>($"{_resPath}/{sprite.name}")));
                 }
                 Vector3 worldPos = mapGrid.GetCellCenterLocal(new Vector3Int(tilePos.x, tilePos.y, 0)) * scale;

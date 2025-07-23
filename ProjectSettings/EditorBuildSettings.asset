@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HallScene.unity
     guid: 5a742501667a78344b0cc27e6f074267
+  - enabled: 1
+    path: Assets/Scenes/HomeScene.unity
+    guid: 3fb2cb68c467e1a448be4397ef519fbf
   m_configObjects: {}

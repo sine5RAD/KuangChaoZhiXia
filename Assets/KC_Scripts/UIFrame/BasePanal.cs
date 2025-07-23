@@ -12,6 +12,7 @@ namespace KCGame
     {
         public UIType uiType;
         public bool activeFlag;
+        private bool _hasDestroyed;
 
         /// <summary>
         /// UI在场景中对应的GameObject
@@ -28,8 +29,10 @@ namespace KCGame
         /// </summary>
         public virtual void OnStart()
         {
+            if (_hasDestroyed) return;
             UIMethods.Instance.GetComponent<CanvasGroup>(activeObj).interactable = true;
             activeFlag = true;
+            _hasDestroyed = false;
         }
 
         /// <summary>
@@ -37,8 +40,10 @@ namespace KCGame
         /// </summary>
         public virtual void OnEnable()
         {
+            if (_hasDestroyed) return;
             UIMethods.Instance.GetComponent<CanvasGroup>(activeObj).interactable = true;
             activeFlag = true;
+            _hasDestroyed = false;
         }
 
         /// <summary>
@@ -46,8 +51,10 @@ namespace KCGame
         /// </summary>
         public virtual void OnDisable()
         {
+            if (_hasDestroyed) return;
             UIMethods.Instance.GetComponent<CanvasGroup>(activeObj).interactable = false;
             activeFlag = false;
+            _hasDestroyed = false;
         }
 
         /// <summary>
@@ -55,8 +62,10 @@ namespace KCGame
         /// </summary>
         public virtual void OnDestroy()
         {
+            if (_hasDestroyed) return;
             UIMethods.Instance.GetComponent<CanvasGroup>(activeObj).interactable = false;
             activeFlag = false;
+            _hasDestroyed = true;
         }
 
         /// <summary>
@@ -64,7 +73,7 @@ namespace KCGame
         /// </summary>
         public virtual void OnUpdate()
         {
-
+            if (_hasDestroyed) return;
         }
     }
 

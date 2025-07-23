@@ -14,7 +14,6 @@ using UnityEngine.Events;
 public class PlayerController : MonoBehaviour
 {
     public float speed;
-    public RectTransform playerTransform;
     public GameObject pressETip;
     private event UnityAction onPressE;
     private bool _hasInteractItem;
@@ -66,7 +65,7 @@ public class PlayerController : MonoBehaviour
             {
                 direction += Vector3.right;
             }
-            playerTransform.position += direction.normalized * speed * Time.deltaTime;
+            transform.position += direction.normalized * speed * Time.deltaTime;
         }
     }
 

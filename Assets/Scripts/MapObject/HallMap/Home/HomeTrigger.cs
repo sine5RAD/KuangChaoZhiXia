@@ -26,5 +26,6 @@ public class HomeTrigger : MonoBehaviour
     void OnPressE()
     {
         Debug.Log("进入房间");
+        KCGame.SceneController.Instance.LoadScene("HomeScene", new HomeScene());
     }
 }
