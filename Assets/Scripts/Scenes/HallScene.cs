@@ -13,7 +13,6 @@ public class HallScene : KCGame.SceneBase
     public override void EnterScene(Scene scene, LoadSceneMode loadSceneMode)
     {
         base.EnterScene(scene, loadSceneMode);
-        UIManager.Instance.Push(new HallMapPanel(HallMapPanel.uIType));
     }
 
     public override void ExitScene()

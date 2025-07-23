@@ -26,7 +26,10 @@ namespace KCGame
                 return _instance;
             }
         }
-        public BasePanel CurrentPanel { get => stackUI.Peek(); }
+        public BasePanel CurrentPanel
+        {
+            get { return stackUI.Count == 0 ? null : stackUI.Peek(); }
+        }
         protected UIManager()
         {
             _instance = this;
@@ -85,6 +88,7 @@ namespace KCGame
             }
             ui.OnStart();//推入栈顶后执行OnStart
                          //防止双击什么的导致同一个UI弹出多次。如果栈顶的UI和加载的ui相同就忽略这次推入
+            ui.OnEnable();
 
         }
 

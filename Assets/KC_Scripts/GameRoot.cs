@@ -46,10 +46,7 @@ namespace KCGame
 
         private void Update()
         {
-            foreach (var i in UIManager.Instance.stackUI)
-            {
-                if (i.activeFlag) i.OnUpdate();
-            }
+            UIManager.Instance.CurrentPanel?.OnUpdate();
         }
     }
 

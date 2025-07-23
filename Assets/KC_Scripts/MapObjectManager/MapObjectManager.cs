@@ -15,6 +15,7 @@ public class MapObjectManager : MonoBehaviour
     public Grid mapGrid;
     public Tilemap tilemap;
     public GameObject buildingObject;
+    public GameObject player;
     /// <summary>
     /// 地图缩放，默认为4倍
     /// </summary>
@@ -23,6 +24,7 @@ public class MapObjectManager : MonoBehaviour
     void Start()
     {
         var bound = tilemap.cellBounds;
+        bool hasSpawnedPlayer = false;//一个地图只能有一个玩家出生点
         foreach(var pos in bound.allPositionsWithin)
         {
             var sprite = tilemap.GetSprite(pos);
@@ -37,6 +39,14 @@ public class MapObjectManager : MonoBehaviour
                 }
                 Vector3 worldPos = mapGrid.GetCellCenterLocal(new Vector3Int(tilePos.x, tilePos.y, 0)) * scale;
                 newGO = GameObject.Instantiate(_objectsDict[sprite.name], worldPos, Quaternion.identity, buildingObject.transform);
+                if(sprite.name == "Spawner")
+                {
+                    if (hasSpawnedPlayer)
+                    {
+                        Debug.LogError($"一张图中不能有两个玩家生成点，位置：{tilePos}");
+                    }
+                    else GameObject.Instantiate(player, worldPos, Quaternion.identity, buildingObject.transform);
+                }
             }
         }
         foreach(var i in _objectsDict.Values)
