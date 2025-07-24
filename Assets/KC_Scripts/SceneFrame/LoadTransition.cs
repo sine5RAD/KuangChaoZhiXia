@@ -65,6 +65,7 @@ namespace KCGame
 
         public void StartLoading(string sceneName, SceneBase sceneBase)
         {
+            Debug.Log("开始加载");
             targetSceneBase = sceneBase;
             loadingStartTime = Time.time;
             isLoadingComplete = false;
@@ -76,7 +77,18 @@ namespace KCGame
         {
             // 开始异步加载
             loadingOperation = SceneManager.LoadSceneAsync(sceneName);
+
+            // 场景加载完成后调用EnterScene
+            if (targetSceneBase != null)
+            {   
+                SceneManager.sceneLoaded += targetSceneBase.EnterScene;
+            }
+          
+
+
             loadingOperation.allowSceneActivation = false;
+
+
 
             // 等待最小加载时间
             while (Time.time - loadingStartTime < minLoadTime || loadingOperation.progress < 0.9f)
@@ -108,11 +120,7 @@ namespace KCGame
                 yield return null;
             }
 
-            // 场景加载完成后调用EnterScene
-            if (targetSceneBase != null)
-            {
-                targetSceneBase.EnterScene();
-            }
+          
         }
 
         private void UpdateProgressUI(float progress)
