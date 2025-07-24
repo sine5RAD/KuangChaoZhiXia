@@ -1,7 +1,8 @@
-using System.Collections;
+ï»¿using System.Collections;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,26 +12,27 @@ namespace KCGame
     public class LoadTransition : MonoBehaviour
     {
         public static LoadTransition Instance { get; private set; }
+        public static UnityAction<Scene, LoadSceneMode> sceneLoaded;
 
 
         [Header("UI Elements")]
-        [LabelText("½ø¶ÈÌõ")]
+        [LabelText("è¿›åº¦æ¡")]
         public Slider progressBar;
-        [LabelText("½ø¶ÈÎÄ±¾")]
+        [LabelText("è¿›åº¦æ–‡æœ¬")]
         public TMP_Text progressText;
-        [LabelText("ÌáÊ¾ÎÄ±¾")]
+        [LabelText("æç¤ºæ–‡æœ¬")]
         public TMP_Text loadingTipText;
 
         [Header("Settings")]
 
-        [LabelText("×îĞ¡¼ÓÔØÊ±¼ä")]
+        [LabelText("æœ€å°åŠ è½½æ—¶é—´")]
         public float minLoadTime = 0.7f;
 
         public string[] loadingTips = {
-            "ÌáÊ¾1111...",
-            "ÌáÊ¾222...",
-            "ÌáÊ¾3333...",
-            "ÌáÊ¾444..."
+            "æç¤º1111...",
+            "æç¤º222...",
+            "æç¤º3333...",
+            "æç¤º444..."
         };
 
         private AsyncOperation loadingOperation;
@@ -52,13 +54,13 @@ namespace KCGame
 
         private void Start()
         {
-            // Ëæ»úÏÔÊ¾Ò»Ìõ¼ÓÔØÌáÊ¾
+            // éšæœºæ˜¾ç¤ºä¸€æ¡åŠ è½½æç¤º
             if (loadingTipText != null && loadingTips.Length > 0)
             {
                 loadingTipText.text = loadingTips[Random.Range(0, loadingTips.Length)];
             }
 
-            // Æô¶¯¼ÓÔØÁ÷³Ì
+            // å¯åŠ¨åŠ è½½æµç¨‹
             StartLoading(SceneController.Instance.TargetSceneName, SceneController.Instance.TargetSceneBase);
         }
 
@@ -68,23 +70,29 @@ namespace KCGame
             targetSceneBase = sceneBase;
             loadingStartTime = Time.time;
             isLoadingComplete = false;
+            // åœºæ™¯åŠ è½½å®Œæˆåè°ƒç”¨EnterScene
+            if (targetSceneBase != null)
+            {
+                Debug.Log("Rua!");
+                SceneManager.sceneLoaded += sceneLoaded;
+            }
 
             StartCoroutine(LoadSceneAsync(sceneName));
         }
 
         private IEnumerator LoadSceneAsync(string sceneName)
         {
-            // ¿ªÊ¼Òì²½¼ÓÔØ
+            // å¼€å§‹å¼‚æ­¥åŠ è½½
             loadingOperation = SceneManager.LoadSceneAsync(sceneName);
             loadingOperation.allowSceneActivation = false;
 
-            // µÈ´ı×îĞ¡¼ÓÔØÊ±¼ä
+            // ç­‰å¾…æœ€å°åŠ è½½æ—¶é—´
             while (Time.time - loadingStartTime < minLoadTime || loadingOperation.progress < 0.9f)
             {
-                // ¼ÆËã¼ÓÔØ½ø¶È£¨0-0.9Ó³Éäµ½0-1£©
+                // è®¡ç®—åŠ è½½è¿›åº¦ï¼ˆ0-0.9æ˜ å°„åˆ°0-1ï¼‰
                 float progress = Mathf.Clamp01(loadingOperation.progress / 0.9f);
 
-                // ¿¼ÂÇ×îĞ¡¼ÓÔØÊ±¼ä£¬Æ½»¬½ø¶ÈÏÔÊ¾
+                // è€ƒè™‘æœ€å°åŠ è½½æ—¶é—´ï¼Œå¹³æ»‘è¿›åº¦æ˜¾ç¤º
                 float timeProgress = Mathf.Clamp01((Time.time - loadingStartTime) / minLoadTime);
                 float displayProgress = Mathf.Min(progress, timeProgress);
 
@@ -92,27 +100,23 @@ namespace KCGame
                 yield return null;
             }
 
-            // È·±£½ø¶ÈÏÔÊ¾Îª100%
+            // ç¡®ä¿è¿›åº¦æ˜¾ç¤ºä¸º100%
             UpdateProgressUI(1f);
 
-            // ¼ÓÔØÍê³É£¬µÈ´ıÓÃ»§µã»÷»ò¶ÌÔİÑÓ³Ù
+            // åŠ è½½å®Œæˆï¼Œç­‰å¾…ç”¨æˆ·ç‚¹å‡»æˆ–çŸ­æš‚å»¶è¿Ÿ
             yield return new WaitForSeconds(0.5f);
 
-            // ÔÊĞí³¡¾°¼¤»î
+            // å…è®¸åœºæ™¯æ¿€æ´»
             isLoadingComplete = true;
             loadingOperation.allowSceneActivation = true;
 
-            // µÈ´ı³¡¾°ÍêÈ«¼ÓÔØ
+            // ç­‰å¾…åœºæ™¯å®Œå…¨åŠ è½½
             while (!loadingOperation.isDone)
             {
                 yield return null;
             }
 
-            // ³¡¾°¼ÓÔØÍê³Éºóµ÷ÓÃEnterScene
-            if (targetSceneBase != null)
-            {
-                targetSceneBase.EnterScene();
-            }
+
         }
 
         private void UpdateProgressUI(float progress)
@@ -128,7 +132,7 @@ namespace KCGame
             }
         }
 
-        // ¿ÉÑ¡£ºÔÊĞíÓÃ»§µã»÷ÆÁÄ»ÌáÇ°½øÈë³¡¾°£¨ÔÚÂú×ã×îĞ¡Ê±¼äºó£©
+        // å¯é€‰ï¼šå…è®¸ç”¨æˆ·ç‚¹å‡»å±å¹•æå‰è¿›å…¥åœºæ™¯ï¼ˆåœ¨æ»¡è¶³æœ€å°æ—¶é—´åï¼‰
         private void Update()
         {
             if (!isLoadingComplete && Time.time - loadingStartTime >= minLoadTime && Input.GetMouseButtonDown(0))

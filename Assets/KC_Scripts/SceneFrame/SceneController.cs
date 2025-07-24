@@ -68,9 +68,9 @@ namespace KCGame
             }
             else
             {
+                LoadTransition.sceneLoaded = sceneBase.EnterScene;
                 // 加载过渡场景
                 SceneManager.LoadScene(KCConstant.过度场景名称);
-
             }
         }
 
