@@ -51,7 +51,12 @@ public class MapObjectManager : MonoBehaviour
                     {
                         Debug.LogError($"一张图中不能有两个玩家生成点，位置：{tilePos}");
                     }
-                    else GameObject.Instantiate(player, worldPos, Quaternion.identity, buildingObject.transform);
+                    else
+                    {
+                        GameObject go = GameObject.Instantiate(player, worldPos, Quaternion.identity, buildingObject.transform);
+                        hasSpawnedPlayer = true;
+                        GameObject.Find("GameCamera").GetComponent<CameraFollow>().SetPlayer(go.transform);
+                    }
                 }
             }
         }

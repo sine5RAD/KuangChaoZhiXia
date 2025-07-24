@@ -12,12 +12,10 @@ namespace KCGame
 
         public CinemachineVirtualCamera VirtualCamera;
 
-        public void Start()
+        public void SetPlayer(Transform tr_Player)
         {
-            Transform tr_Player = GameObject.FindWithTag("Player").transform;
             VirtualCamera.Follow = tr_Player;
             VirtualCamera.LookAt = tr_Player;
-
         }
 
     }
