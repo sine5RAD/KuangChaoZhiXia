@@ -76,7 +76,7 @@ namespace KCGame
             {
                 Debug.Log(stackUI.Peek().uiType.Name);
                 Debug.Log(ui.uiType.Name);
-                if (stackUI.Peek().uiType.Name != ui.uiType.Name) return;//防止双击什么的导致同一个UI弹出多次。如果栈顶的UI和加载的ui相同就忽略这次推入
+                if (stackUI.Peek().uiType.Name == ui.uiType.Name) return;//防止双击什么的导致同一个UI弹出多次。如果栈顶的UI和加载的ui相同就忽略这次推入
             }
             if (stackUI.Count > 0)
             {
