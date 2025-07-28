@@ -53,13 +53,14 @@ public class MapObjectManager : MonoBehaviour
                     }
                     else
                     {
-                        GameObject go = GameObject.Instantiate(player, worldPos, Quaternion.identity, buildingObject.transform);
+                        GameObject go = GameObject.Instantiate(player, worldPos, Quaternion.identity, mapGrid.transform);
                         hasSpawnedPlayer = true;
                         GameObject.Find("GameCamera").GetComponent<CameraFollow>().SetPlayer(go.transform);
                     }
                 }
             }
         }
+        if (!hasSpawnedPlayer) Debug.LogError("未找到玩家出生点");
         foreach(var i in _objectsDict.Values)
             i.SetActive(false);
     }

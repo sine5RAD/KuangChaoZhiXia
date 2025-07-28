@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +6,8 @@ using UnityEngine;
 
 
 /*
- * ĞèÒªÔÚĞ¡µØÍ¼ÉÏÏÔÊ¾µÄ¶ÔÏó£¬ĞèÒªÌí¼ÓÒ»¸ö×Ó¶ÔÏó£¬²¢ÇÒ°Ñ×Ó¶ÔÏóµÄlayerÉèÖÃÎªMinimap
- * ÀıÈçÏ£ÍûÔÚĞ¡µØÍ¼ÉÏÏÔÊ¾Íæ¼ÒÎª¡°Íæ¼Ò¡±×ÖÑù£¬ÔòÔÚÍæ¼ÒÔ¤ÖÆÌåÏÂÌí¼ÓÒ»¸ö»­²¼ ²¢ÇÒÉèÖÃ»­²¼µÄ²ãÎªMiniMap È»ºóÔÚ»­²¼ÉÏÌí¼ÓÒ»¸ötxt×é¼ş
+ * éœ€è¦åœ¨å°åœ°å›¾ä¸Šæ˜¾ç¤ºçš„å¯¹è±¡ï¼Œéœ€è¦æ·»åŠ ä¸€ä¸ªå­å¯¹è±¡ï¼Œå¹¶ä¸”æŠŠå­å¯¹è±¡çš„layerè®¾ç½®ä¸ºMinimap
+ * ä¾‹å¦‚å¸Œæœ›åœ¨å°åœ°å›¾ä¸Šæ˜¾ç¤ºç©å®¶ä¸ºâ€œç©å®¶â€å­—æ ·ï¼Œåˆ™åœ¨ç©å®¶é¢„åˆ¶ä½“ä¸‹æ·»åŠ ä¸€ä¸ªç”»å¸ƒ å¹¶ä¸”è®¾ç½®ç”»å¸ƒçš„å±‚ä¸ºMiniMap ç„¶ååœ¨ç”»å¸ƒä¸Šæ·»åŠ ä¸€ä¸ªtxtç»„ä»¶
  */
 
 
@@ -20,7 +20,7 @@ public class MiniMap : MonoBehaviour
     public Camera MiniMapCamera;
 
 
-    //µ÷ÕûMiniMapCameraµÄËõ·Å
+    //è°ƒæ•´MiniMapCameraçš„ç¼©æ”¾
     public void MiniMap_ChangeZoom()
     {
 

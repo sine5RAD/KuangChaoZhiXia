@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6222201813496667909}
   - component: {fileID: 3625599334318503383}
   - component: {fileID: 971023282733507138}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PressE
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 8195070709804384278}
   - component: {fileID: 1851279404034902965}
   - component: {fileID: 2092626143600339492}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 4060096726303043409}
   - component: {fileID: 8699402921080720132}
   - component: {fileID: 9206004420919053040}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: MiniCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8868918752530734527}
   - component: {fileID: 2085536168409345459}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,7 +388,7 @@ GameObject:
   - component: {fileID: 96470452106774709}
   - component: {fileID: 6135692441935121706}
   - component: {fileID: 7789975591731494706}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -533,7 +533,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 95492dad759861641a9289b67223342e, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
