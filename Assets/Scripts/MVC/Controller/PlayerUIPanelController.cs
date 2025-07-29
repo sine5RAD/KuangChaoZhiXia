@@ -7,7 +7,7 @@ using UnityEngine;
  * 描述：主界面UI的控制器
  * 作者：sine5RAD
  */
-public class PlayerUIPanelController : MonoBehaviour
+public class PlayerUIPanelController : KCGame.KCSingletonMonoBehaviour<PlayerUIPanelController>
 {
     private PlayerUIPanel _playerUIPanel;
     private PlayerUIPanelModel _playerUIPanelModel;
@@ -25,5 +25,10 @@ public class PlayerUIPanelController : MonoBehaviour
     void Update()
     {
         _playerUIPanelModel.UpdatePerFrame();
+    }
+
+    public bool InvokeRushSkill()
+    {
+        return _playerUIPanelModel.InvokeRushSkill();
     }
 }

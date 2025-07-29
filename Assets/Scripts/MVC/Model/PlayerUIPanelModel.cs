@@ -19,7 +19,16 @@ public class PlayerUIPanelModel
     public void UpdatePerFrame()
     {
         _player.GasVal -= Player.GasDissipationRate * Time.deltaTime;
+        _player.PlayerRushCoolDown -= Time.deltaTime;
         Update();
+    }
+
+    public bool InvokeRushSkill()
+    {
+        if (_player.PlayerRushCoolDown > 0) return false;
+        _player.PlayerRushCoolDown += _player.RushCoolDown;
+        Update();
+        return true;
     }
 
     private event UnityAction<PlayerUIPanelModel> _onUpdate;

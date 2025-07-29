@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public GameObject pressETip;
     private event UnityAction onPressE;
     private bool _hasInteractItem;
-    private bool _isMovingLocked = false;
+    private Vector3 direction = Vector3.zero;
 
     private void Start()
     {
@@ -48,24 +48,35 @@ public class PlayerController : MonoBehaviour
     {
         if(!InputUtility.Instance.IsMovingLocked)
         {
-            Vector3 direction = Vector3.zero;
-            if (Input.GetKey(KeyCode.W) && !_isMovingLocked)
+            if (Input.GetKey(KeyCode.W))
             {
                 direction += Vector3.up;
             }
-            if (Input.GetKey(KeyCode.A) && !_isMovingLocked)
+            if (Input.GetKey(KeyCode.A))
             {
                 direction += Vector3.left;
             }
-            if (Input.GetKey(KeyCode.S) && !_isMovingLocked)
+            if (Input.GetKey(KeyCode.S))
             {
                 direction += Vector3.down;
             }
-            if (Input.GetKey(KeyCode.D) && !_isMovingLocked)
+            if (Input.GetKey(KeyCode.D))
             {
                 direction += Vector3.right;
             }
             transform.position += direction.normalized * speed * Time.deltaTime;
+            if (Input.GetKey(KeyCode.LeftShift) && direction != Vector3.zero)
+            {
+                if (!InputUtility.Instance.IsMovingLocked)
+                {
+                    if (PlayerUIPanelController.Instance.InvokeRushSkill())
+                    {
+                        Debug.Log("冲刺！");
+                        StartCoroutine(RushSkill(direction));
+                    }
+                }
+            }
+            direction = Vector3.zero;
         }
     }
 
@@ -78,5 +89,23 @@ public class PlayerController : MonoBehaviour
                 onPressE?.Invoke();
             }
         }
+    }
+    /// <summary>
+    /// 冲刺！冲刺！冲！冲！冲刺！
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RushSkill(Vector3 dir)
+    {
+        InputUtility.Instance.LockMoving();
+        float dT = 0;
+        speed *= 2;
+        while(dT < 0.1f)
+        {
+            dT += Time.deltaTime;
+            transform.position += dir.normalized * speed * Time.deltaTime;
+            yield return null;
+        }
+        speed /= 2;
+        InputUtility.Instance.UnlockMoving();
     }
 }

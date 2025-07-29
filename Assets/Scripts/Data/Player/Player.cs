@@ -20,10 +20,33 @@ public class Player
             if(_gasVal > GasLimit)_gasVal = GasLimit;
         }
     }
-    private float _basicGasLimit;
+    private readonly float _basicGasLimit;//基础燃料最大值
     public float GasLimit { get { return _basicGasLimit; }}
-    private int _basicCalcPower;
-    public int CalcPower {  get { return _basicCalcPower; }}
+    private readonly int _basicCalcPower;//空手算力
+    public int CalcPower {  get { return _basicCalcPower; } }
+
+    private readonly float _basicRushCoolDown;//基础冲刺冷却
+    public float RushCoolDown
+    {
+        get
+        {
+            return _basicRushCoolDown;
+        }
+    }
+
+    private float _playerRushCoolDown;//当前玩家冲刺冷却
+    public float PlayerRushCoolDown
+    {
+        get => _playerRushCoolDown;
+        set
+        {
+            _playerRushCoolDown = value;
+            if (_playerRushCoolDown <= 0) _playerRushCoolDown = 0;
+        }
+    }
+    /// <summary>
+    /// 依据所在场景的不同返回不同的耗散速率
+    /// </summary>
     public static float GasDissipationRate
     {
         get
@@ -32,7 +55,7 @@ public class Player
             {
                 case "HallScene":
                 case "HomeScene":
-                    return 0.5f;
+                    return 0;
                 default:
                     return 1;
             }
@@ -43,5 +66,7 @@ public class Player
         _basicGasLimit = 1000;
         _basicCalcPower = 50;
         _gasVal = 1000;
+        _basicRushCoolDown = 5;
+        _playerRushCoolDown = 0;
     }
 }
