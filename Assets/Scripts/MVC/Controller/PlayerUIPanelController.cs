@@ -31,4 +31,5 @@ public class PlayerUIPanelController : KCGame.KCSingletonMonoBehaviour<PlayerUIP
     {
         return _playerUIPanelModel.InvokeRushSkill();
     }
+
 }

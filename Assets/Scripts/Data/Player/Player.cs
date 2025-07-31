@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /* 
- * 描述：玩家数据类，包含燃料，燃料最大值，算力，
+ * 描述：玩家数据类，包含燃料，燃料最大值，算力，背包
  * 作者：sine5RAD
  */
-public class Player
+public class Player: KCGame.KCSingleton<Player>
 {
     private float _gasVal;//燃料用float存储，但显示的时候四舍五入取整
     public float GasVal 
@@ -60,6 +60,33 @@ public class Player
                     return 1;
             }
         }
+    }
+
+    private BagLocalData _bag = new BagLocalData();
+    public BagLocalData Bag
+    {
+        get { return _bag; }
+    }
+    /// <summary>
+    /// 向背包中添加物品
+    /// </summary>
+    /// <param name="item"></param>
+    public void AddItem(BagLocalItemBase item)
+    {
+        _bag.items.Add(item);
+    }
+    /// <summary>
+    /// 从背包中移除物品
+    /// </summary>
+    /// <param name="index"></param>
+    public void RemoveItem(int index)
+    {
+        if (index < 0 || index >= _bag.items.Count)
+        {
+            Debug.LogError("Index out of range when removing item from bag.");
+            return;
+        }
+        _bag.items.RemoveAt(index);
     }
     public Player()
     {

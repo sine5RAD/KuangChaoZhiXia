@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af612b9cf6d96a4eb4fb163e47a3f11, type: 3}
+  m_Name: BagTable
+  m_EditorClassIdentifier: 
+  bagItems:
+  - itemName: "\u83B1\u7279\u5E01"
+    itemDescreption: 114514
+    itemType: 1
+  - itemName: "\u6BD4\u7279\u5E01"
+    itemDescreption: 
+    itemType: 1
+  - itemName: "\u4EE5\u592A\u574A"
+    itemDescreption: 
+    itemType: 1
+  - itemName: "\u7B97\u6CD5\u7A33\u5B9A\u5E01"
+    itemDescreption: 
+    itemType: 1
+  - itemName: "\u975E\u540C\u8D28\u5316\u4EE3\u5E01"
+    itemDescreption: 
+    itemType: 1
+  - itemName: "\u78F7\u77FF"
+    itemDescreption: 
+    itemType: 2
+  - itemName: "\u94BE\u77FF"
+    itemDescreption: 
+    itemType: 2
+  - itemName: "\u9541\u77FF"
+    itemDescreption: 
+    itemType: 2
+  - itemName: "\u9499\u77FF"
+    itemDescreption: 
+    itemType: 2

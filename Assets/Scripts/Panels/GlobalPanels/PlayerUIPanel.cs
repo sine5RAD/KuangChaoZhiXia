@@ -56,5 +56,9 @@ public class PlayerUIPanel : BasePanel
     public override void OnUpdate()
     {
         base.OnUpdate();
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            UIManager.Instance.Push(new BagPanel(BagPanel.uIType));
+        }
     }
 }
