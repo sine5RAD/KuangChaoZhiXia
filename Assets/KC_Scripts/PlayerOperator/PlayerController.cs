@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 {
     public float speed;
     public GameObject pressETip;
-    private event UnityAction onPressE;
+    private event UnityAction OnPressE;
     private bool _hasInteractItem;
     private Vector3 direction = Vector3.zero;
 
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public void RemoveInteractItem()
     {
         _hasInteractItem = false;
-        onPressE = null;
+        OnPressE = null;
         pressETip.SetActive(false);
     }
     /// <summary>
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         RemoveInteractItem();
         _hasInteractItem = true;
-        onPressE += func;
+        OnPressE += func;
         pressETip.SetActive(true);
     }
 
@@ -65,6 +65,10 @@ public class PlayerController : MonoBehaviour
                 direction += Vector3.right;
             }
             transform.position += direction.normalized * speed * Time.deltaTime;
+            if(direction != Vector3.zero)
+            {
+                PlayerUIPanelController.Instance.player.Move();
+            }
             if (Input.GetKey(KeyCode.LeftShift) && direction != Vector3.zero)
             {
                 if (!InputUtility.Instance.IsMovingLocked)
@@ -86,7 +90,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_hasInteractItem)
             {
-                onPressE?.Invoke();
+                OnPressE?.Invoke();
             }
         }
     }
@@ -101,6 +105,7 @@ public class PlayerController : MonoBehaviour
         speed *= 2;
         while(dT < 0.1f)
         {
+            PlayerUIPanelController.Instance.player.Move();
             dT += Time.deltaTime;
             transform.position += dir.normalized * speed * Time.deltaTime;
             yield return null;

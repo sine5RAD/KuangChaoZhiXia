@@ -20,6 +20,7 @@ public class PlayerUIPanelModel
     {
         _player.GasVal -= Player.GasDissipationRate * Time.deltaTime;
         _player.PlayerRushCoolDown -= Time.deltaTime;
+        _player.GPU.Temperature -= _player.GPU.HeatDissipationEfficiency * Time.deltaTime;
         Update();
     }
 

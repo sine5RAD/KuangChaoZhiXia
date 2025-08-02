@@ -22,7 +22,10 @@ public class BagItem
     {
         Null,
         Coin,
-        Ore
+        Ore,
+        GPU,
+        Radiator,
+        Prop
     }
 
     public BagItemType itemType;

@@ -24,7 +24,7 @@ public class LightCoinTrigger : MonoBehaviour
     }
     void OnPressE()
     {
-        Player.Instance.AddItem(new LightCoin());
+        PlayerUIPanelController.Instance.player.AddItem(new LightCoin());
         Destroy(transform.parent.gameObject);
     }
 }

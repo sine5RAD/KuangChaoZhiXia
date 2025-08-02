@@ -21,8 +21,10 @@ public class BagPanel : BasePanel
 
     private TextMeshProUGUI _descriptionView;
     private Button _discard;
-    public BagPanel(UIType uIType) : base(uIType)
+    public Player player;
+    public BagPanel(UIType uIType, Player player) : base(uIType)
     {
+        this.player = player;
     }
 
     public override void OnDestroy()

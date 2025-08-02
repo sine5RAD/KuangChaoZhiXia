@@ -6,18 +6,21 @@ using UnityEngine;
  * 描述：LTC数据类
  * 作者：sine5RAD
  */
-public class LightCoin : BagLocalItemBase
+public class LightCoin : CoinBase
 {
     public LightCoin()
     {
         _itemType = BagItem.BagItemType.Coin;
         _name = "莱特币";
-        _weight = 0.5f;
+        _weight = 150f;
         _value = 0.5f;
     }
-    public override void OnPlayerMoving()
+    public override float TemperatureVelocity(Player player)
     {
-        // 在玩家移动时执行的逻辑
-        Debug.Log("玩家正在移动，携带的莱特币数量：" + Player.Instance.Bag.items.Count);
+        return 4f * (1 + player.GPU.Temperature / 50);
+    }
+    public override void OnPlayerMoving(Player player)
+    {
+        player.GPU.Temperature += TemperatureVelocity(player) * Time.deltaTime;
     }
 }

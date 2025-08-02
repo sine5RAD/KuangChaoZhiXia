@@ -30,7 +30,7 @@ public class BagPanelController : KCGame.KCSingletonMonoBehaviour<BagPanelContro
         {
             Debug.LogError("当前界面不是BagPanel");
         }
-        _bagPanelModel = new BagPanelModel();
+        _bagPanelModel = new BagPanelModel(_bagPanel.player);
         _bagPanelModel.AddListener(_bagPanel.Update);
         ShowBagItem();
     }
@@ -38,11 +38,6 @@ public class BagPanelController : KCGame.KCSingletonMonoBehaviour<BagPanelContro
     private void ShowBagItem()
     {
         #region 实例化背包物体
-        if(_bagPanelModel == null)
-        {
-            Debug.LogWarning("背包数据未初始化");
-            return;
-        }
         for (int i = 0; i < _bagPanelModel.Bag.items.Count; i++)
         {
             GameObject newItem = GameObject.Instantiate(itemPrefab);
@@ -73,7 +68,11 @@ public class BagPanelController : KCGame.KCSingletonMonoBehaviour<BagPanelContro
         }
         _itemGOList.Clear();
         _gOIndex.Clear();
-        ShowBagItem();
+        if (_bagPanelModel != null)
+        {
+            ShowBagItem();
+            return;
+        }
     }
 
     // Update is called once per frame

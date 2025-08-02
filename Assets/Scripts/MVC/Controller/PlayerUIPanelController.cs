@@ -11,6 +11,11 @@ public class PlayerUIPanelController : KCGame.KCSingletonMonoBehaviour<PlayerUIP
 {
     private PlayerUIPanel _playerUIPanel;
     private PlayerUIPanelModel _playerUIPanelModel;
+
+    public Player player
+    {
+        get { return _playerUIPanelModel.Player; }
+    }
     // Start is called before the first frame update
     void Start()
     {

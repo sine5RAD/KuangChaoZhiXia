@@ -15,7 +15,7 @@ public class PlayerUIPanel : BasePanel
     private static readonly string _path = "Prefab/Panel/GlobalPanels/PlayerUIPanel";
     public static readonly UIType uIType = new UIType(_name, _path);
     private Slider _gasVal, _calcPowerVal;
-    private TextMeshProUGUI _gasProporty, _calcPowerProporty;
+    private TextMeshProUGUI _gasProporty, _calcPowerProporty, _GPUTypeText, _temperatureText, _heatDisspationEfficient;
     public PlayerUIPanel(UIType uIType) : base(uIType)
     {
     }
@@ -42,6 +42,9 @@ public class PlayerUIPanel : BasePanel
         _calcPowerVal = UIMethods.Instance.GetComponentInChildren<Slider>(activeObj, "CalcPowerVal");
         _gasProporty = UIMethods.Instance.GetComponentInChildren<TextMeshProUGUI>(activeObj, "GasProporty");
         _calcPowerProporty = UIMethods.Instance.GetComponentInChildren<TextMeshProUGUI>(activeObj, "CalcPowerProporty");
+        _GPUTypeText = UIMethods.Instance.GetComponentInChildren<TextMeshProUGUI>(activeObj, "GPUTypeText");
+        _temperatureText = UIMethods.Instance.GetComponentInChildren<TextMeshProUGUI>(activeObj, "TemperatureText");
+        _heatDisspationEfficient = UIMethods.Instance.GetComponentInChildren<TextMeshProUGUI>(activeObj, "HeatDisspationEfficientText");
     }
 
     public void UpdateInfo(PlayerUIPanelModel playerUIPanelModel)
@@ -51,14 +54,18 @@ public class PlayerUIPanel : BasePanel
         _gasProporty.text = $"{(int)playerUIPanelModel.Player.GasVal}/{playerUIPanelModel.Player.GasLimit}";
         _calcPowerVal.value = playerUIPanelModel.Player.CalcPower;
         _calcPowerProporty.text = $"{(int)playerUIPanelModel.Player.CalcPower}/1000";
+
+        _GPUTypeText.text = playerUIPanelModel.Player.GPU.Name;
+        _temperatureText.text = $"{playerUIPanelModel.Player.GPU.Temperature.ToString("#0.00")}°C / 100.00°C";
+        _heatDisspationEfficient.text = $"{playerUIPanelModel.Player.GPU.HeatDissipationEfficiency.ToString("#0.0")}x";
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            UIManager.Instance.Push(new BagPanel(BagPanel.uIType));
+            UIManager.Instance.Push(new BagPanel(BagPanel.uIType, PlayerUIPanelController.Instance.player));
         }
     }
 }

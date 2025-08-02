@@ -40,3 +40,24 @@ MonoBehaviour:
   - itemName: "\u9499\u77FF"
     itemDescreption: 
     itemType: 2
+  - itemName: AMD RX 550
+    itemDescreption: AMD RX 550
+    itemType: 3
+  - itemName: NVIDIA RTX 3060
+    itemDescreption: NVIDIA RTX 3060
+    itemType: 3
+  - itemName: RTX 4090
+    itemDescreption: RTX 4090
+    itemType: 3
+  - itemName: GeForce RTX 5090 D
+    itemDescreption: GeForce RTX 5090 D
+    itemType: 3
+  - itemName: "\u98CE\u51B7\u6563\u70ED\u5668"
+    itemDescreption: "\u98CE\u51B7\u6563\u70ED\u5668"
+    itemType: 4
+  - itemName: "\u6C34\u51B7\u6563\u70ED\u5668"
+    itemDescreption: "\u6C34\u51B7\u6563\u70ED\u5668"
+    itemType: 4
+  - itemName: "\u6DB2\u6C2E\u51B7\u5374\u5242"
+    itemDescreption: "\u6DB2\u6C2E\u51B7\u5374\u5242"
+    itemType: 4

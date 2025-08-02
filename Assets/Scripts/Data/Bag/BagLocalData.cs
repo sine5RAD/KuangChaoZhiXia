@@ -10,7 +10,21 @@ using UnityEngine.Events;
 public class BagLocalData : KCGame.KCSingleton<BagLocalData>
 {
     public List<BagLocalItemBase> items;       //物品列表
-    public event UnityAction onPlayerMoving;   //玩家移动时触发
+    public event UnityAction<Player> OnPlayerMoving;   //玩家移动时触发
+
+    private float _weight;
+    public float Weight
+    {
+        get
+        {
+            return _weight;
+        }
+        set
+        {
+            _weight = value;
+            if (_weight < 0) _weight = 0;
+        }
+    }
 
     public BagLocalData()
     {
@@ -42,7 +56,7 @@ public class BagLocalItemBase
         get { return _value; }
     }
 
-    public virtual void OnPlayerMoving()
+    public virtual void OnPlayerMoving(Player player)
     {
 
     }

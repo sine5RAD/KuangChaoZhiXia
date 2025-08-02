@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 /* 
  * 描述：玩家数据类，包含燃料，燃料最大值，算力，背包
  * 作者：sine5RAD
  */
-public class Player: KCGame.KCSingleton<Player>
+public class Player
 {
     private float _gasVal;//燃料用float存储，但显示的时候四舍五入取整
     public float GasVal 
@@ -22,8 +23,27 @@ public class Player: KCGame.KCSingleton<Player>
     }
     private readonly float _basicGasLimit;//基础燃料最大值
     public float GasLimit { get { return _basicGasLimit; }}
-    private readonly int _basicCalcPower;//空手算力
-    public int CalcPower {  get { return _basicCalcPower; } }
+
+    private GPUBase _gpu; //玩家当前使用的GPU
+    public GPUBase GPU
+    {
+        get { return _gpu; }
+        set
+        {
+            value.Temperature = _gpu.Temperature; // 保持温度不变
+            _gpu.Temperature = 0; // 设置旧GPU温度为0
+            AddItem(_gpu); // 将旧的GPU放回背包
+            _gpu = value; // 设置新的GPU
+        }
+    }
+    public float CalcPower {  get { return GPU.CalcPower; } }
+
+    public event UnityAction<Player> OnPlayerMoving; //玩家移动时触发事件
+
+    public void Move()
+    {
+        OnPlayerMoving?.Invoke(this); // 触发玩家移动事件
+    }
 
     private readonly float _basicRushCoolDown;//基础冲刺冷却
     public float RushCoolDown
@@ -74,6 +94,7 @@ public class Player: KCGame.KCSingleton<Player>
     public void AddItem(BagLocalItemBase item)
     {
         _bag.items.Add(item);
+        OnPlayerMoving += item.OnPlayerMoving; // 订阅玩家移动事件
     }
     /// <summary>
     /// 从背包中移除物品
@@ -86,12 +107,13 @@ public class Player: KCGame.KCSingleton<Player>
             Debug.LogError("Index out of range when removing item from bag.");
             return;
         }
+        OnPlayerMoving -= _bag.items[index].OnPlayerMoving; // 取消订阅玩家移动事件
         _bag.items.RemoveAt(index);
     }
     public Player()
     {
         _basicGasLimit = 1000;
-        _basicCalcPower = 50;
+        _gpu = new AMDRX550(); // 默认使用AMD RX 550
         _gasVal = 1000;
         _basicRushCoolDown = 5;
         _playerRushCoolDown = 0;

@@ -9,11 +9,11 @@ using UnityEngine.Events;
  */
 public class BagPanelModel
 {
-    private BagLocalData _bag;
-    public BagLocalData Bag { get { return _bag; } }
-    public BagPanelModel()
+    private Player _player;
+    public BagLocalData Bag { get { return _player.Bag; } }
+    public BagPanelModel(Player player)
     {
-        _bag = Player.Instance.Bag;
+        _player = player;
     }
 
     private BagLocalItemBase _selectedItem = null;
@@ -29,14 +29,12 @@ public class BagPanelModel
 
     public void AddItem(BagLocalItemBase item)
     {
-        Player.Instance.AddItem(item);
-        _bag.onPlayerMoving += item.OnPlayerMoving;
+        _player.AddItem(item);
     }
 
     public void RemoveItem(int index)
     {
-        _bag.onPlayerMoving -= _bag.items[index].OnPlayerMoving;
-        Player.Instance.RemoveItem(index);
+        _player.RemoveItem(index);
     }
 
     private event UnityAction<BagPanelModel> _onUpdate;
