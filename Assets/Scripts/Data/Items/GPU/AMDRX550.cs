@@ -11,7 +11,9 @@ public class AMDRX550 : GPUBase
     public AMDRX550() : base()
     {
         _name = "AMD RX 550";
-        _baseHeatDissipationEfficiency = 1f;
+        _baseHeatDissipationRate = 1f;
         _baseCalcPower = 100f; // 基础算力为100
+        _weight = 1.0f;
+        _value = 100f;
     }
 }

@@ -11,7 +11,7 @@ using UnityEngine.WSA;
  * 描述：生成地牢
  * 作者：sine5RAD
  */
-public class DungonMapGen : MonoBehaviour
+public class DungonMapGen: MonoBehaviour
 {
     private Tilemap _groundTileMap;
     public int seed;
@@ -33,8 +33,15 @@ public class DungonMapGen : MonoBehaviour
     public TileBase groundTile;            //地板的瓷砖
     public TileBase wallTile;              //墙面的瓷砖
     public TileBase playerSpawnerTile;     //重生点瓷砖
-    public TileBase exitTile;              //出口瓷砖
+    public TileBase nextFloorTile;         //下一层瓷砖
     public int width, height;              //地图大小
+    public float scale = 4.0f;             //地图缩放比例
+
+    [Range(0, 10f)]
+    public float difficulty = 1.0f;        //难度系数
+    [Range(0, 10f)]
+    public float difficultyGap = 1.0f;     //关卡难度递增间隔
+    public int floor;
 
     private bool[,] _groundData;//True: 地板 Falue: 空
     private BuildingType[, ] _buildingData;
@@ -48,19 +55,21 @@ public class DungonMapGen : MonoBehaviour
     {
         Null,
         Wall,
-        PlayerSpawner
+        PlayerSpawner,
+        NextFloor
     }
     // Start is called before the first frame update
     void Start()
+    {
+    }
+
+    public void GenerateMap()
     {
         _groundTileMap = transform.Find("DungonGround").GetComponent<Tilemap>();
         _mapGrid = transform.GetComponent<Grid>();
         _buildingTileMap = transform.Find("DungonBuilding").GetComponent<Tilemap>();
         _buildingObject = transform.Find("BuildingObject").gameObject;
-    }
 
-    public void GenerateMap()
-    {
         GenerateMapData();
         GenerateTileMap();
 
@@ -119,8 +128,9 @@ public class DungonMapGen : MonoBehaviour
         #endregion
 
         #region 将出生点置于左下角第一个不为空的地块
-        int playerSpawnerPosSum = 2147483647;
-        Vector2Int playerSpawnerPos = new Vector2Int();
+        int playerSpawnerPosSum = 2147483647, nextFloorPosSum = -1;
+        Vector2Int playerSpawnerPos = new Vector2Int(),
+                   nextFloorPos = new Vector2Int();
         for(int i = 0;i < largestRoom.Count;i++)
         {
             var p = largestRoom[i];
@@ -130,9 +140,24 @@ public class DungonMapGen : MonoBehaviour
                 playerSpawnerPosSum = p.x + p.y;
                 playerSpawnerPos = p;
             }
+            if(p.x + p.y > nextFloorPosSum)
+            {
+                nextFloorPosSum = p.x + p.y;
+                nextFloorPos = p;
+            }
         }
         _buildingData[playerSpawnerPos.x, playerSpawnerPos.y] = BuildingType.PlayerSpawner;
+        _buildingData[nextFloorPos.x, nextFloorPos.y] = BuildingType.NextFloor;
 
+        #endregion
+
+        #region 放置货币
+
+        //TODO: 像个正常游戏一样生成货币
+        GameObject bitCoin = Resources.Load<GameObject>("Prefab/Objects/DungonObjects/BitCoin");
+        Vector2Int tilePos = largestRoom[UnityEngine.Random.Range(0, largestRoom.Count)];
+        GameObject.Instantiate(bitCoin, _buildingTileMap.GetCellCenterLocal(new Vector3Int(tilePos.x, tilePos.y, 0)) * scale, Quaternion.identity, _buildingObject.transform);
+        
         #endregion
     }
 
@@ -242,6 +267,10 @@ public class DungonMapGen : MonoBehaviour
                         break;
                     case BuildingType.PlayerSpawner:
                         tile = playerSpawnerTile;
+                        _buildingTileMap.SetTile(new Vector3Int(i, j), tile);
+                        break;
+                    case BuildingType.NextFloor:
+                        tile = nextFloorTile;
                         _buildingTileMap.SetTile(new Vector3Int(i, j), tile);
                         break;
                 }

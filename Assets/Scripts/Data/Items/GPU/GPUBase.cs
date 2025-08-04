@@ -1,3 +1,4 @@
+using KCGame;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,17 @@ using UnityEngine;
  */
 public class GPUBase: BagLocalItemBase
 {
+    protected bool _isOverload; //是否过载
+    public bool IsOverload
+    {
+        get { return _isOverload; }
+    }
     protected float _baseCalcPower; //基础算力
     public virtual float CalcPower
     {
         get
         {
-            if(0 < Temperature && Temperature < 60)
+            if(0 <= Temperature && Temperature < 60)
             {
                 return _baseCalcPower;
             }
@@ -43,19 +49,28 @@ public class GPUBase: BagLocalItemBase
         set
         {
             _temperature = value;
-            if (_temperature < 0) _temperature = 0;
-            if (_temperature > 100) _temperature = 100; // 温度上限为100
+            if (_temperature < 0)
+            {
+                _temperature = 0;
+                _isOverload = false; // 温度降到0时不再过载
+            }
+            if (_temperature > 100)
+            {
+                _temperature = 100; // 温度上限为100
+                _isOverload = true; // 温度超过100时过载
+            }
         }
     }
 
-    protected float _baseHeatDissipationEfficiency = 1f; //基础散热效率
-    public virtual float HeatDissipationEfficiency
+    protected float _baseHeatDissipationRate = 1f; //基础散热率
+    public virtual float HeatDissipationRate
     {
-        get { return _baseHeatDissipationEfficiency; }
+        get { return _baseHeatDissipationRate; }
     }
 
     public GPUBase()
     {
+        _isOverload = false;
         _itemType = BagItem.BagItemType.GPU;
         _temperature = 0f; // 初始温度为0
     }

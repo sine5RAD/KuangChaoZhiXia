@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoadTransitionScene.unity
     guid: 42c620adfec7c694ab18a2c60e9cd8c4
+  - enabled: 1
+    path: Assets/Scenes/BlockChainLandScene.unity
+    guid: a8e751bd83ed68340b4e4e115cc8b518
   m_configObjects: {}

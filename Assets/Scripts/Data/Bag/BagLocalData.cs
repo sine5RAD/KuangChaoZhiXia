@@ -10,7 +10,6 @@ using UnityEngine.Events;
 public class BagLocalData : KCGame.KCSingleton<BagLocalData>
 {
     public List<BagLocalItemBase> items;       //物品列表
-    public event UnityAction<Player> OnPlayerMoving;   //玩家移动时触发
 
     private float _weight;
     public float Weight
@@ -29,6 +28,23 @@ public class BagLocalData : KCGame.KCSingleton<BagLocalData>
     public BagLocalData()
     {
         items = new List<BagLocalItemBase>();
+    }
+
+    public void AddItem(BagLocalItemBase item)
+    {
+        items.Add(item);
+        Weight += item.Weight;
+    }
+
+    public void RemoveItem(int index)
+    {
+        if (index < 0 || index >= items.Count)
+        {
+            Debug.LogError("Index out of range when trying to remove item from bag.");
+            return;
+        }
+        Weight -= items[index].Weight;
+        items.RemoveAt(index);
     }
 }
 

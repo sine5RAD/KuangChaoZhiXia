@@ -22,7 +22,7 @@ public class PlayerUIPanelController : KCGame.KCSingletonMonoBehaviour<PlayerUIP
         if (UIManager.Instance.CurrentPanel is PlayerUIPanel)
             _playerUIPanel = UIManager.Instance.CurrentPanel as PlayerUIPanel;
         else Debug.LogError("当前UI不是PlayerUIPanel");
-        _playerUIPanelModel = new PlayerUIPanelModel(new Player());
+        _playerUIPanelModel = new PlayerUIPanelModel(DungonConfig.Instance.player);
         _playerUIPanelModel.AddListener(_playerUIPanel.UpdateInfo);
     }
 

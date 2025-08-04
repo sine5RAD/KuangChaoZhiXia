@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /* 
- * 描述：玩家数据类，包含燃料，燃料最大值，算力，背包
+ * 描述：玩家实例数据类，包含燃料，燃料最大值，算力，背包
  * 作者：sine5RAD
  */
 public class Player
@@ -36,7 +37,36 @@ public class Player
             _gpu = value; // 设置新的GPU
         }
     }
+
+    private RadiatorBase _radiator; //玩家当前使用的散热器
+    public RadiatorBase Radiator
+    {
+        get { return _radiator; }
+        set
+        {
+            AddItem(_radiator); // 将旧的散热器放回背包
+            _radiator = value; // 设置新的散热器
+        }
+    }
     public float CalcPower {  get { return GPU.CalcPower; } }
+
+    /// <summary>
+    /// 每秒总散热效率
+    /// </summary>
+    public float HeatDissipationEfficiencyPerSecond
+    {
+        get
+        {
+            return GPU.HeatDissipationRate * (Radiator.HeatDissipationEfficiency + 3.0f);
+        }
+    }
+
+    public void UpdatePerFrame()
+    {
+        GasVal -= Player.GasDissipationRate * Time.deltaTime;
+        PlayerRushCoolDown -= Time.deltaTime;
+        GPU.Temperature -= HeatDissipationEfficiencyPerSecond * Time.deltaTime;
+    }
 
     public event UnityAction<Player> OnPlayerMoving; //玩家移动时触发事件
 
@@ -93,7 +123,7 @@ public class Player
     /// <param name="item"></param>
     public void AddItem(BagLocalItemBase item)
     {
-        _bag.items.Add(item);
+        _bag.AddItem(item);
         OnPlayerMoving += item.OnPlayerMoving; // 订阅玩家移动事件
     }
     /// <summary>
@@ -102,18 +132,14 @@ public class Player
     /// <param name="index"></param>
     public void RemoveItem(int index)
     {
-        if (index < 0 || index >= _bag.items.Count)
-        {
-            Debug.LogError("Index out of range when removing item from bag.");
-            return;
-        }
+        _bag.RemoveItem(index);
         OnPlayerMoving -= _bag.items[index].OnPlayerMoving; // 取消订阅玩家移动事件
-        _bag.items.RemoveAt(index);
     }
     public Player()
     {
         _basicGasLimit = 1000;
         _gpu = new AMDRX550(); // 默认使用AMD RX 550
+        _radiator = new AirCooledRadiator(); // 默认使用风冷散热器
         _gasVal = 1000;
         _basicRushCoolDown = 5;
         _playerRushCoolDown = 0;

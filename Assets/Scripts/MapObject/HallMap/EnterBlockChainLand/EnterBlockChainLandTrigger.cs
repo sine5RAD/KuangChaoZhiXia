@@ -18,6 +18,8 @@ public class EnterBlockChainLandTrigger : MonoBehaviour
     }
     private void EnterBlockChainLand()
     {
-        Debug.Log("非常抱歉，区块链大陆还在施工，前面的区域以后再来探索吧");
+        //Debug.Log("非常抱歉，区块链大陆还在施工，前面的区域以后再来探索吧");
+        DungonConfig.Instance.Init(1, 1, PlayerUIPanelController.Instance.player); // 初始化地牢配置，设置初始层数和难度
+        SceneController.Instance.LoadScene("BlockChainLandScene", new BlockChainLandScene(DungonConfig.Instance.floor, DungonConfig.Instance.difficulty, DungonConfig.Instance.difficultyGap), true);
     }
 }

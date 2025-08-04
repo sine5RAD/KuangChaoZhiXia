@@ -57,7 +57,8 @@ public class PlayerUIPanel : BasePanel
 
         _GPUTypeText.text = playerUIPanelModel.Player.GPU.Name;
         _temperatureText.text = $"{playerUIPanelModel.Player.GPU.Temperature.ToString("#0.00")}°C / 100.00°C";
-        _heatDisspationEfficient.text = $"{playerUIPanelModel.Player.GPU.HeatDissipationEfficiency.ToString("#0.0")}x";
+        _heatDisspationEfficient.text = $"{playerUIPanelModel.Player.HeatDissipationEfficiencyPerSecond.ToString("#0.0")}" +
+            $"({playerUIPanelModel.Player.GPU.HeatDissipationRate.ToString("#0.0")}x)";
     }
 
     public override void OnUpdate()

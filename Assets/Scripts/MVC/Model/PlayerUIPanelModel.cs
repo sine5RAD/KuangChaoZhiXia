@@ -18,9 +18,7 @@ public class PlayerUIPanelModel
 
     public void UpdatePerFrame()
     {
-        _player.GasVal -= Player.GasDissipationRate * Time.deltaTime;
-        _player.PlayerRushCoolDown -= Time.deltaTime;
-        _player.GPU.Temperature -= _player.GPU.HeatDissipationEfficiency * Time.deltaTime;
+        _player.UpdatePerFrame();
         Update();
     }
 

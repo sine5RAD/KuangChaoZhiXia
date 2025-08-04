@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private bool _hasInteractItem;
     private Vector3 direction = Vector3.zero;
 
+    private bool _isRushing = false;
+
     private void Start()
     {
     }
@@ -46,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!InputUtility.Instance.IsMovingLocked)
+        if(!InputUtility.Instance.IsMovingLocked && !_isRushing && !PlayerUIPanelController.Instance.player.GPU.IsOverload)
         {
             if (Input.GetKey(KeyCode.W))
             {
@@ -100,7 +102,7 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator RushSkill(Vector3 dir)
     {
-        InputUtility.Instance.LockMoving();
+        _isRushing = true;
         float dT = 0;
         speed *= 2;
         while(dT < 0.1f)
@@ -111,6 +113,6 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         speed /= 2;
-        InputUtility.Instance.UnlockMoving();
+        _isRushing = false;
     }
 }

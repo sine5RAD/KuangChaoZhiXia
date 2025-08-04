@@ -10,14 +10,14 @@ public class LightCoinTrigger : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<PlayerController>().SwitchInteractItem(OnPressE);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<PlayerController>().RemoveInteractItem();
         }
