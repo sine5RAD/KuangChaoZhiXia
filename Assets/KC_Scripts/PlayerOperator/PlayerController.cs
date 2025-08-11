@@ -13,16 +13,17 @@ using UnityEngine.Events;
  */
 public class PlayerController : MonoBehaviour
 {
-    public float speed;
     public GameObject pressETip;
     private event UnityAction OnPressE;
     private bool _hasInteractItem;
-    private Vector3 direction = Vector3.zero;
+    private Vector3Int direction = Vector3Int.zero;
+    private Grid _mapGrid;
 
-    private bool _isRushing = false;
+    private bool _isRushing = false, _isMoving = false;
 
     private void Start()
     {
+        _mapGrid = GameObject.Find("Grid").GetComponent<Grid>();
     }
 
     /// <summary>
@@ -48,28 +49,33 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!InputUtility.Instance.IsMovingLocked && !_isRushing && !PlayerUIPanelController.Instance.player.GPU.IsOverload)
+        if(!InputUtility.Instance.IsMovingLocked && 
+           !_isRushing && 
+           !PlayerUIPanelController.Instance.player.GPU.IsOverload && 
+            PlayerUIPanelController.Instance.player.CurrentMovingCooldown == 0)
         {
             if (Input.GetKey(KeyCode.W))
             {
-                direction += Vector3.up;
+                direction += Vector3Int.up;
             }
             if (Input.GetKey(KeyCode.A))
             {
-                direction += Vector3.left;
+                direction += Vector3Int.left;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                direction += Vector3.down;
+                direction += Vector3Int.down;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                direction += Vector3.right;
+                direction += Vector3Int.right;
             }
-            transform.position += direction.normalized * speed * Time.deltaTime;
             if(direction != Vector3.zero)
             {
+                Vector3Int pos = _mapGrid.WorldToCell(transform.position);
                 PlayerUIPanelController.Instance.player.Move();
+                StartCoroutine(Move(transform.position, _mapGrid.CellToWorld(pos + direction) + new Vector3(0.64f, 0.64f, 0), PlayerUIPanelController.Instance.player.CurrentMovingCooldown));
+                
             }
             if (Input.GetKey(KeyCode.LeftShift) && direction != Vector3.zero)
             {
@@ -82,7 +88,7 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
-            direction = Vector3.zero;
+            direction = Vector3Int.zero;
         }
     }
 
@@ -100,19 +106,30 @@ public class PlayerController : MonoBehaviour
     /// 冲刺！冲刺！冲！冲！冲刺！
     /// </summary>
     /// <returns></returns>
-    private IEnumerator RushSkill(Vector3 dir)
+    private IEnumerator RushSkill(Vector3Int dir)
     {
         _isRushing = true;
-        float dT = 0;
-        speed *= 2;
-        while(dT < 0.1f)
+        for(int i = 0; i < 3; i++)
         {
-            PlayerUIPanelController.Instance.player.Move();
-            dT += Time.deltaTime;
-            transform.position += dir.normalized * speed * Time.deltaTime;
+            Vector3Int pos = _mapGrid.WorldToCell(transform.position);
+            StartCoroutine(Move(transform.position, _mapGrid.CellToWorld(pos + dir) + new Vector3(0.64f, 0.64f, 0), 0.1f));
+            yield return new WaitForSeconds(0.1f);
+        }
+        _isRushing = false;
+    }
+
+    private IEnumerator Move(Vector3 from, Vector3 to, float time)
+    {
+        _isMoving = true;
+        float dt = 0;
+        while(dt <= time)
+        {
+            Debug.Log(dt);
+            dt += Time.deltaTime;
+            transform.position += (to - from) * (Time.deltaTime / time);
             yield return null;
         }
-        speed /= 2;
-        _isRushing = false;
+        transform.position = _mapGrid.CellToWorld(_mapGrid.WorldToCell(transform.position)) + new Vector3(0.64f, 0.64f, 0);
+        _isMoving = false;
     }
 }

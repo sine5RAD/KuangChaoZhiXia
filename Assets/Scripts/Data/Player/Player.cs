@@ -25,6 +25,44 @@ public class Player
     private readonly float _basicGasLimit;//基础燃料最大值
     public float GasLimit { get { return _basicGasLimit; }}
 
+    private float _currentMovingCooldown; // 玩家移动冷却时间
+    public float CurrentMovingCooldown
+    {
+        get { return _currentMovingCooldown; }
+        set
+        {
+            _currentMovingCooldown = value;
+            if (_currentMovingCooldown < 0) _currentMovingCooldown = 0;
+        }
+    }
+
+    public float MovingCooldown
+    {
+        get 
+        {
+            if (0 <= GPU.Temperature && GPU.Temperature <= 60) return 0.5f;
+            else if (GPU.Temperature <= 70) return 0.3f;
+            else if (GPU.Temperature <= 80)
+            {
+                float rnd = Random.Range(0.0f, 1.0f);
+                if (rnd <= 0.2f) return 1.3f;
+                else return 0.3f;
+            }
+            else return 0.5f;
+        }
+    }
+
+    public float TemeperatureDeltaPerMove
+    {
+        get
+        {
+            if (0 <= GPU.Temperature && GPU.Temperature <= 60) return 3f;
+            else if (GPU.Temperature <= 70) return 5f;
+            else if (GPU.Temperature <= 80) return 8f;
+            else return 10f;
+        }
+    }
+
     private GPUBase _gpu; //玩家当前使用的GPU
     public GPUBase GPU
     {
@@ -61,17 +99,22 @@ public class Player
         }
     }
 
+    /// <summary>
+    /// 每一帧更新玩家状态
+    /// </summary>
     public void UpdatePerFrame()
     {
         GasVal -= Player.GasDissipationRate * Time.deltaTime;
         PlayerRushCoolDown -= Time.deltaTime;
         GPU.Temperature -= HeatDissipationEfficiencyPerSecond * Time.deltaTime;
+        CurrentMovingCooldown -= Time.deltaTime; // 更新移动冷却时间
     }
 
     public event UnityAction<Player> OnPlayerMoving; //玩家移动时触发事件
 
     public void Move()
     {
+        CurrentMovingCooldown += MovingCooldown; // 增加移动冷却时间
         OnPlayerMoving?.Invoke(this); // 触发玩家移动事件
     }
 

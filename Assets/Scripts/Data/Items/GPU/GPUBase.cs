@@ -42,6 +42,19 @@ public class GPUBase: BagLocalItemBase
         }
     }
 
+    public string Condition
+    {
+         get
+        {
+            if(IsOverload) return "过载";
+            if (Temperature < 60) return "预热";
+            else if (Temperature < 70) return "最佳效能";
+            else if (Temperature < 80) return "过热风险";
+            else if (Temperature <= 100) return "危险";
+            else return "异常";
+        }
+    }
+
     protected float _temperature; //温度
     public virtual float Temperature
     {
