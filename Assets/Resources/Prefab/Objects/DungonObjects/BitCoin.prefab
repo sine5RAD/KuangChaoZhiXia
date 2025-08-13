@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7198172073793378382}
   - component: {fileID: 8558909660113925176}
   - component: {fileID: -7641952399908173117}
+  - component: {fileID: 4381934688820840054}
   m_Layer: 0
   m_Name: BitCoin
   m_TagString: Pushable
@@ -88,14 +89,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4288736650414445731}
-  m_BodyType: 2
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -106,7 +107,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &-7641952399908173117
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -159,6 +160,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4381934688820840054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4288736650414445731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e302049b0e8f64bb5520dead20a35c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7551319352381197454
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,3 +262,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d72809e6968e3242b6647414e406b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pushableTrigger: {fileID: 4381934688820840054}

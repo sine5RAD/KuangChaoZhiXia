@@ -8,15 +8,26 @@ using UnityEngine;
  */
 public class LightCoinTrigger : MonoBehaviour
 {
+    public PushableTrigger pushableTrigger;
+    private GameObject _player;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // 检查碰撞体是否是玩家
         if (collision.CompareTag("Player"))
         {
+            _player = collision.gameObject;
             collision.gameObject.GetComponent<PlayerController>().SwitchInteractItem(OnPressE);
+        }
+        // 检查碰撞体是否是墙壁
+        if (collision.CompareTag("Wall"))
+        {
+            pushableTrigger.StopMoving();
+            _player.GetComponent<PlayerController>().StopMoving();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        // 检查碰撞体是否是玩家
         if (collision.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<PlayerController>().RemoveInteractItem();

@@ -448,7 +448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc7758cd3a676343a45d3a46c5245e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   pressETip: {fileID: 1013947138117973768}
 --- !u!61 &96470452106774709
 BoxCollider2D:
@@ -559,7 +558,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -573,7 +572,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 7
 --- !u!198 &6486311017814311475
 ParticleSystem:
   m_ObjectHideFlags: 0

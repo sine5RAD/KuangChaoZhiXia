@@ -11,19 +11,18 @@ using UnityEngine.Events;
  * 描述：WASD控制玩家移动
  * 作者：sine5RAD
  */
-public class PlayerController : MonoBehaviour
+public class PlayerController : MoveableObject
 {
     public GameObject pressETip;
     private event UnityAction OnPressE;
     private bool _hasInteractItem;
     private Vector3Int direction = Vector3Int.zero;
-    private Grid _mapGrid;
+    private Coroutine _rushCoroutine;
 
-    private bool _isRushing = false, _isMoving = false;
+    private bool _isRushing = false;
 
     private void Start()
     {
-        _mapGrid = GameObject.Find("Grid").GetComponent<Grid>();
     }
 
     /// <summary>
@@ -74,7 +73,7 @@ public class PlayerController : MonoBehaviour
             {
                 Vector3Int pos = _mapGrid.WorldToCell(transform.position);
                 PlayerUIPanelController.Instance.player.Move();
-                StartCoroutine(Move(transform.position, _mapGrid.CellToWorld(pos + direction) + new Vector3(0.64f, 0.64f, 0), PlayerUIPanelController.Instance.player.CurrentMovingCooldown));
+                _moveCoroutine = StartCoroutine(Move(transform.position, _mapGrid.CellToWorld(pos + direction) + new Vector3(0.64f, 0.64f, 0), PlayerUIPanelController.Instance.player.CurrentMovingCooldown));
                 
             }
             if (Input.GetKey(KeyCode.LeftShift) && direction != Vector3.zero)
@@ -84,11 +83,19 @@ public class PlayerController : MonoBehaviour
                     if (PlayerUIPanelController.Instance.InvokeRushSkill())
                     {
                         Debug.Log("冲刺！");
-                        StartCoroutine(RushSkill(direction));
+                        _rushCoroutine = StartCoroutine(RushSkill(direction));
                     }
                 }
             }
             direction = Vector3Int.zero;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Wall"))
+        {
+            StopMoving();
         }
     }
 
@@ -112,24 +119,21 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < 3; i++)
         {
             Vector3Int pos = _mapGrid.WorldToCell(transform.position);
-            StartCoroutine(Move(transform.position, _mapGrid.CellToWorld(pos + dir) + new Vector3(0.64f, 0.64f, 0), 0.1f));
+            _moveCoroutine = StartCoroutine(Move(transform.position, _mapGrid.CellToWorld(pos + dir) + new Vector3(0.64f, 0.64f, 0), 0.1f));
             yield return new WaitForSeconds(0.1f);
         }
         _isRushing = false;
     }
 
-    private IEnumerator Move(Vector3 from, Vector3 to, float time)
+    public override void StopMoving()
     {
-        _isMoving = true;
-        float dt = 0;
-        while(dt <= time)
+        if (_isMoving || _isRushing)
         {
-            Debug.Log(dt);
-            dt += Time.deltaTime;
-            transform.position += (to - from) * (Time.deltaTime / time);
-            yield return null;
+            if (_moveCoroutine != null) StopCoroutine(_moveCoroutine);
+            if (_rushCoroutine != null) StopCoroutine(_rushCoroutine);
+            _isMoving = false;
+            _isRushing = false;
+            transform.position = _mapGrid.CellToWorld(_mapGrid.WorldToCell(transform.position)) + new Vector3(0.64f, 0.64f, 0);
         }
-        transform.position = _mapGrid.CellToWorld(_mapGrid.WorldToCell(transform.position)) + new Vector3(0.64f, 0.64f, 0);
-        _isMoving = false;
     }
 }
