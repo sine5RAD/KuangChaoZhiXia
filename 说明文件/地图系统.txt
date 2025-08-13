@@ -1,0 +1,6 @@
+1.场景中的Grid需要设置标签为“Map”
+2.基础tileMap标签需要设置为“MapGround”
+3.放置障碍物一类的Tilemap需要设置标签为“MapGround”
+4.所有不可通行的Tile类型需要添加到 KC-CommonAssets的ObsTiles列表中
+5.地图系统的核心类GameMapUnit（详细看脚本）
+6.需要参与地图互动的需要继承IMapRole接口（详细看脚本）

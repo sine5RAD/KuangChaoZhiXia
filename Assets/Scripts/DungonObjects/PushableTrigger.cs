@@ -33,8 +33,10 @@ public class PushableTrigger : MonoBehaviour, IMapRole
     public void MoveTo(Vector2Int newCellPos)
     {
         CellPos = newCellPos;
-        transform.position = GameMapUnit.Instance.Fix_CellToWrold(newCellPos);
+        Vector3 targetPos = GameMapUnit.Instance.Fix_CellToWrold(newCellPos);
+        StartCoroutine(AnimateMove(targetPos));
     }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

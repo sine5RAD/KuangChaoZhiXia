@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour, IMapRole
         _mapGrid = GameMapUnit.Instance.MapGrid;
         GameMapUnit.Instance.Register(this);
         CellPos = GameMapUnit.Instance.Fix_WorldToCell(transform.position);
+
+
     }
 
     public MapRoleProp MapRegister()
@@ -36,8 +38,30 @@ public class PlayerController : MonoBehaviour, IMapRole
     public void MoveTo(Vector2Int newCellPos)
     {
         CellPos = newCellPos;
-        transform.position = GameMapUnit.Instance.Fix_CellToWrold(newCellPos);
+
+        Vector3 targetPos = GameMapUnit.Instance.Fix_CellToWrold(newCellPos);
+        StartCoroutine(AnimateMove(targetPos));
+
     }
+
+    //这里的数值需要调整
+    private IEnumerator AnimateMove(Vector3 targetPos)
+    {
+        float duration = 0.2f;
+        Vector3 startPos = transform.position;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPos;
+    }
+
+
 
     /// <summary>
     /// 清空按下E键后执行的函数列表，在玩家离开trigger时触发
