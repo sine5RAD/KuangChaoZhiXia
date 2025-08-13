@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Pushable
   - Wall
+  - Map
+  - MapGround
+  - MapObstacle
   layers:
   - Default
   - TransparentFX

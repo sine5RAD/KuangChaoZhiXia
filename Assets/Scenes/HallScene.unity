@@ -347,6 +347,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1686964926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1686964928}
+  - component: {fileID: 1686964927}
+  m_Layer: 0
+  m_Name: "\u5730\u56FE\u7BA1\u7406\u5668"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1686964927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686964926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab8126757884c54f97e9cf9eeb60996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapGrid: {fileID: 0}
+  groundMap: {fileID: 1699472844049388702}
+  buildMap: {fileID: 8018386029418762402}
+  testObj: {fileID: 1931647683561079704, guid: e3808acfaf17a2e45901486de57a2826, type: 3}
+--- !u!4 &1686964928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686964926}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.492859, y: -13.5423, z: -0.084106684}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1727613189
 GameObject:
   m_ObjectHideFlags: 0
@@ -11306,7 +11354,7 @@ GameObject:
   - component: {fileID: 8379877637596748574}
   m_Layer: 0
   m_Name: Grid
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11373,7 +11421,7 @@ GameObject:
   - component: {fileID: 7770899660096607940}
   m_Layer: 0
   m_Name: HallGround
-  m_TagString: Untagged
+  m_TagString: MapGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11422,7 +11470,7 @@ GameObject:
   - component: {fileID: 4721630049306528486}
   m_Layer: 0
   m_Name: HallBuilding
-  m_TagString: Untagged
+  m_TagString: MapObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14347,3 +14395,4 @@ SceneRoots:
   - {fileID: 1611338588692089917}
   - {fileID: 399134927}
   - {fileID: 2005719523}
+  - {fileID: 1686964928}

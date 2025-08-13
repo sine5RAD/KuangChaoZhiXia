@@ -19,11 +19,7 @@ public class BitCoinTrigger : MonoBehaviour
             collision.gameObject.GetComponent<PlayerController>().SwitchInteractItem(OnPressE);
         }
         // 检查碰撞体是否是墙壁
-        if (collision.CompareTag("Wall"))
-        {
-            pushableTrigger.StopMoving();
-            _player.GetComponent<PlayerController>().StopMoving();
-        }
+       
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

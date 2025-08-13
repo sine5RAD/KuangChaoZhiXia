@@ -7,6 +7,12 @@ namespace KCGame
 {
     public class GameRoot : MonoBehaviour
     {
+
+        //杂项通用资源 暂时先放这
+        [SerializeField] public SO_KCCommonAssets KCAssets;
+
+
+
         private static GameRoot _instance;
         public static GameRoot Instance
         {

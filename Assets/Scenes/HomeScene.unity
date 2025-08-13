@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 110087308}
   m_Layer: 0
   m_Name: Grid
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 576165669}
   m_Layer: 0
   m_Name: HomeGround
-  m_TagString: Untagged
+  m_TagString: MapGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2201,7 +2201,7 @@ GameObject:
   - component: {fileID: 1018295744}
   m_Layer: 0
   m_Name: HomeBuilding
-  m_TagString: Untagged
+  m_TagString: MapObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

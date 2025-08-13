@@ -8,6 +8,9 @@ using UnityEngine;
  */
 public class MoveableObject : MonoBehaviour
 {
+
+
+
     protected bool _isMoving = false;
     protected Grid _mapGrid;
     protected Coroutine _moveCoroutine;
@@ -20,6 +23,9 @@ public class MoveableObject : MonoBehaviour
             Debug.LogError("Grid component not found in the scene.");
         }
     }
+
+   
+
     protected IEnumerator Move(Vector3 from, Vector3 to, float time)
     {
         _isMoving = true;
