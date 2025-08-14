@@ -113,6 +113,9 @@ public class GameMapUnit : MonoBehaviour
         dic_StaticObstacle = new Dictionary<Vector2Int, bool>();
         dic_CellToRole = new Dictionary<Vector2Int, IMapRole>();
 
+        // 大型障碍物
+        Dictionary<Vector2Int, BarrierItem> dic_largeBarrier = new Dictionary<Vector2Int, BarrierItem>();
+
         // 获取groundMap中所有有效瓦片位置
         foreach (Vector3Int cellPosition in groundMap.cellBounds.allPositionsWithin)
         {
@@ -128,11 +131,37 @@ public class GameMapUnit : MonoBehaviour
                 TileBase currentTile = buildMap.GetTile(cellPosition);
                 // 检查瓦片是否存在且在ObsTile列表中
                 isObstacle = currentTile != null && ObsTile.Contains(currentTile);
+
+                if(currentTile != null)
+                {
+                    BarrierItem barrierItem = BarrierInfoSearcher.Instance.GetInfoFromName(currentTile.name);
+                    if (barrierItem != null)
+                    {
+                        dic_largeBarrier.Add(pos2D, barrierItem);
+                    }
+                }
             }
 
             dic_StaticObstacle[pos2D] = isObstacle;
             // 初始化动态物体字典
             dic_CellToRole[pos2D] = null;
+        }
+
+        foreach(var p in dic_largeBarrier)
+        {
+            for(int i = p.Key.x; i < p.Key.x + p.Value.deltaX; i++)
+                for(int j = p.Key.y; j < p.Key.y + p.Value.deltaY; j++)
+                {
+                    Vector2Int pos = new Vector2Int(i, j);
+                    if (dic_StaticObstacle.ContainsKey(pos))
+                    {
+                        dic_StaticObstacle[pos] = true; // 设置为障碍物
+                    }
+                    else
+                    {
+                        dic_StaticObstacle.Add(pos, true); // 添加新的障碍物位置
+                    }
+                }
         }
 
         Debug.Log($"Map data initialized. {dic_StaticObstacle.Count} cells processed.");

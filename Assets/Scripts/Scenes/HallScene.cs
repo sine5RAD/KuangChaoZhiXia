@@ -14,7 +14,6 @@ public class HallScene : KCGame.SceneBase
     {
         base.EnterScene(scene, loadSceneMode);
         UIManager.Instance.Push(new PlayerUIPanel(PlayerUIPanel.uIType));
-        Debug.Log("Rua!");
     }
 
     public override void ExitScene()

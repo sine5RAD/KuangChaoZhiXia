@@ -135,14 +135,6 @@ public class PlayerController : MonoBehaviour, IMapRole
         return MoveDir.下;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            StopMoving();
-        }
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && _hasInteractItem)
@@ -171,15 +163,6 @@ public class PlayerController : MonoBehaviour, IMapRole
         }
 
         _isRushing = false;
-    }
-
-    public void StopMoving()
-    {
-        if (_isRushing && _rushCoroutine != null)
-        {
-            StopCoroutine(_rushCoroutine);
-            _isRushing = false;
-        }
     }
 
     public bool CanMove()
