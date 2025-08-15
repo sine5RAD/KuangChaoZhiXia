@@ -114,6 +114,7 @@ public class Player
 
     public void Move()
     {
+        PlayerUIPanelController.Instance.Move(); // 更新UI
         CurrentMovingCooldown += MovingCooldown; // 增加移动冷却时间
         OnPlayerMoving?.Invoke(this); // 触发玩家移动事件
     }
@@ -167,7 +168,6 @@ public class Player
     public void AddItem(BagLocalItemBase item)
     {
         _bag.AddItem(item);
-        OnPlayerMoving += item.OnPlayerMoving; // 订阅玩家移动事件
     }
     /// <summary>
     /// 从背包中移除物品
@@ -176,7 +176,6 @@ public class Player
     public void RemoveItem(int index)
     {
         _bag.RemoveItem(index);
-        OnPlayerMoving -= _bag.items[index].OnPlayerMoving; // 取消订阅玩家移动事件
     }
     public Player()
     {

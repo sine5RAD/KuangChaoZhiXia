@@ -41,6 +41,8 @@ public interface IMapRole
     MapItemType RoleType { get; set; }
     MapRoleProp MapRegister();
     void MoveTo(Vector2Int newCellPos); // 新增方法用于移动角色
+
+    BagLocalItemBase BagLocalItemBase { get; set; } // 添加背包物品属性
 }
 
 /// <summary>
@@ -147,7 +149,8 @@ public class GameMapUnit : MonoBehaviour
             dic_CellToRole[pos2D] = null;
         }
 
-        foreach(var p in dic_largeBarrier)
+        #region 填充大型物体碰撞箱
+        foreach (var p in dic_largeBarrier)
         {
             for(int i = p.Key.x; i < p.Key.x + p.Value.deltaX; i++)
                 for(int j = p.Key.y; j < p.Key.y + p.Value.deltaY; j++)
@@ -163,6 +166,7 @@ public class GameMapUnit : MonoBehaviour
                     }
                 }
         }
+        #endregion
 
         Debug.Log($"Map data initialized. {dic_StaticObstacle.Count} cells processed.");
     }
@@ -247,6 +251,24 @@ public class GameMapUnit : MonoBehaviour
     }
 
     /// <summary>
+    /// 注销地图角色
+    /// </summary>
+    /// <param name="r"></param>
+    public void UnRegister(IMapRole r)
+    {
+        Vector2Int cellPos = r.CellPos;
+        // 检查位置是否存在且被该角色占用
+        if (dic_CellToRole.ContainsKey(cellPos) && dic_CellToRole[cellPos] == r)
+        {
+            dic_CellToRole[cellPos] = null;
+        }
+        else
+        {
+            Debug.LogWarning($"位置 {cellPos} 不存在或未被该角色占用，无法注销");
+        }
+    }
+
+    /// <summary>
     /// 尝试移动角色
     /// </summary>
     public bool TryMove(IMapRole role, MoveDir dir, out Vector3 worldPos)
@@ -290,7 +312,7 @@ public class GameMapUnit : MonoBehaviour
                 {
                     return false;
                 }
-
+                PlayerUIPanelController.Instance.Push(targetRole);
                 // 移动玩家
                 return MoveRole(role, targetPos, out worldPos);
             }

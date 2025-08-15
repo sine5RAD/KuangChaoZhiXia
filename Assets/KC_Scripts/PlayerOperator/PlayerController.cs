@@ -15,11 +15,17 @@ public class PlayerController : MonoBehaviour, IMapRole
     private bool _isRushing = false;
     private Grid _mapGrid;
 
+    private IMapRole _graspedBox;// 当前抓取的箱子
+    private IMapRole _carriedBox;// 当前搬运的箱子
+
+    private bool _isHandEmpty;// 手是否空闲，抓取和搬运都会导致手被占用
+
     [ShowInInspector]
     public Vector2Int CellPos { get; set; }
 
     [ShowInInspector]
     public MapItemType RoleType { get; set; } = MapItemType.玩家;
+    public BagLocalItemBase BagLocalItemBase { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     private void Start()
     {
@@ -140,6 +146,10 @@ public class PlayerController : MonoBehaviour, IMapRole
         if (Input.GetKeyDown(KeyCode.E) && _hasInteractItem)
         {
             OnPressE?.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.G) && _hasInteractItem)
+        {
+
         }
     }
 

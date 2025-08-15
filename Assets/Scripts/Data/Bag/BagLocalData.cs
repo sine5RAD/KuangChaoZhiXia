@@ -71,9 +71,4 @@ public class BagLocalItemBase
     {
         get { return _value; }
     }
-
-    public virtual void OnPlayerMoving(Player player)
-    {
-
-    }
 }

@@ -3,25 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* 
- * 描述：莱特币脚本
+ * 描述：货币物块碰撞箱基类
  * 作者：sine5RAD
  */
-public class LightCoinTrigger : MonoBehaviour
+public class CoinTriggerBase : MonoBehaviour
 {
-    public PushableTrigger pushableTrigger;
-    private GameObject _player;
-    private void OnTriggerEnter2D(Collider2D collision)
+    public CoinBase coinInfo;
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         // 检查碰撞体是否是玩家
         if (collision.CompareTag("Player"))
         {
-            _player = collision.gameObject;
             collision.gameObject.GetComponent<PlayerController>().SwitchInteractItem(OnPressE);
         }
-        // 检查碰撞体是否是墙壁
-     
     }
-    private void OnTriggerExit2D(Collider2D collision)
+
+    protected virtual void OnTriggerExit2D(Collider2D collision)
     {
         // 检查碰撞体是否是玩家
         if (collision.CompareTag("Player"))
@@ -29,9 +26,16 @@ public class LightCoinTrigger : MonoBehaviour
             collision.gameObject.GetComponent<PlayerController>().RemoveInteractItem();
         }
     }
-    void OnPressE()
+
+    protected virtual void OnPressE()
     {
-        PlayerUIPanelController.Instance.player.AddItem(new LightCoin());
+        GameMapUnit.Instance.UnRegister(transform.parent.GetComponent<PushableTrigger>());
+        PlayerUIPanelController.Instance.player.AddItem(coinInfo);
         Destroy(transform.parent.gameObject);
+    }
+
+    public virtual void Init()
+    {
+        Debug.Log("CoinTriggerBase Init");
     }
 }

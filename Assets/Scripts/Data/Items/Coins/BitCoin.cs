@@ -9,19 +9,10 @@ using UnityEngine;
 public class BitCoin : CoinBase
 {
 
-    public BitCoin()
+    public BitCoin():base()
     {
-        _itemType = BagItem.BagItemType.Coin;
         _name = "比特币";
-        _weight = 300f;
-        _value = 1f;
-    }
-    public override float TemperatureVelocity(Player player)
-    {
-        return 4f * (1 + player.GPU.Temperature / 50);
-    }
-    public override void OnPlayerMoving(Player player)
-    {
-        player.GPU.Temperature += TemperatureVelocity(player) * Time.deltaTime;
+        _weight = BagInfoSearcher.Instance.GetInfoFromName(_name).itemWeight;
+        _value = BagInfoSearcher.Instance.GetInfoFromName(_name).itemValue;
     }
 }

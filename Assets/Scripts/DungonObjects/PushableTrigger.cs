@@ -17,7 +17,7 @@ public class PushableTrigger : MonoBehaviour, IMapRole
     public Vector2Int CellPos { get; set; }
     public MapItemType RoleType { get; set; } = MapItemType.箱子;
 
-
+    public BagLocalItemBase BagLocalItemBase { get; set ; } // 添加背包物品属性
 
     private void Start()
     {

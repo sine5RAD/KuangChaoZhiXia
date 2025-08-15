@@ -17,6 +17,8 @@ public class BagItem
 {
     public string itemName;
     public string itemDescreption;
+    public float itemWeight;
+    public float itemValue;
 
     public enum BagItemType
     {

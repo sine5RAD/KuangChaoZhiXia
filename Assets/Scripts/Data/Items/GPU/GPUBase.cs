@@ -75,6 +75,15 @@ public class GPUBase: BagLocalItemBase
         }
     }
 
+    public float TC
+    {
+        get
+        {
+            if (Temperature < 80) return 1 + Temperature / 100;
+            else return 1 + Temperature * Temperature / 5000;
+        }
+    }
+
     protected float _baseHeatDissipationRate = 1f; //基础散热率
     public virtual float HeatDissipationRate
     {

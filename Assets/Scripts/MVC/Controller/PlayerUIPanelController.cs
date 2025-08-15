@@ -37,4 +37,27 @@ public class PlayerUIPanelController : KCGame.KCSingletonMonoBehaviour<PlayerUIP
         return _playerUIPanelModel.InvokeRushSkill();
     }
 
+    public void Move()
+    {
+        if (_playerUIPanel != null)
+        {
+            _playerUIPanelModel.Move();
+        }
+        else
+        {
+            Debug.LogError("PlayerUIPanel is null");
+        }
+    }
+
+    public void Push(IMapRole mapRole)
+    {
+        if (_playerUIPanel != null)
+        {
+            _playerUIPanelModel.Push(mapRole);
+        }
+        else
+        {
+            Debug.LogError("PlayerUIPanel is null");
+        }
+    }
 }
